@@ -1,0 +1,30 @@
+{
+  "name": "bricks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/original001/bricks.git"
+  },
+  "author": "original001",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/original001/bricks/issues"
+  },
+  "homepage": "https://github.com/original001/bricks#readme",
+  "dependencies": {
+    "babel-core": "^6.7.2",
+    "es5-shim": "^4.5.7",
+    "lodash": "^4.6.1",
+    "react-lite": "^0.15.3"
+  },
+  "devDependencies": {
+    "babel-loader": "^6.2.4",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
