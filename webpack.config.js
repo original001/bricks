@@ -10,13 +10,13 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 	module: {
-		loaders: {
+		loaders: [{
 			test: /\.jsx?$/,
 			loader: 'babel',
 			query: {
 				presets: ['es2015', 'react']
 			}
-		}
+		}]
 	},
 	resolve: {
         alias: {
@@ -27,5 +27,6 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin(),
     	new webpack.optimize.DedupePlugin(),
-	]
+	],
+  devtool: 'inline-source-map'
 }
