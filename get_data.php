@@ -14,7 +14,8 @@
   function calculateHash($brick){
     $login = 'buyonebrickcom';
     $pass = 'original001';
-    $hash = md5($login . ':' . $brick['outSum'] . ':' . $brick['id'] . ':' . $pass);
+    $cur = 'USD';
+    $hash = md5($login . ':' . $brick['outSum'] . ':' . $brick['id'] . ':' . $cur . ':' . $pass);
     array_push($brick, 'hash');
     $brick['hash'] = $hash;
     return $brick;

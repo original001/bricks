@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const LOGIN = 'buyonebrickcom';
 const IS_TEST = 1;
+const OUT_SUM_CURRENCY = 'USD';
 
 const BRICKS_CLASSES = {
   1: 'lg',
@@ -39,7 +40,7 @@ const App = props => {
 const buildUrl = brick => {
   const url = 'https://auth.robokassa.ru/Merchant/Index.aspx';
   const {row, ind, id, hash, outSum}  = brick;
-  return `${url}?MrchLogin=${LOGIN}&IsTest=${IS_TEST}&OutSum=${outSum}&InvId=${id}&Desc=${row}-${ind}&SignatureValue=${hash}`;
+  return `${url}?MrchLogin=${LOGIN}&IsTest=${IS_TEST}&OutSum=${outSum}&OutSumCurrency=${OUT_SUM_CURRENCY}&InvId=${id}&Desc=${row}-${ind}&SignatureValue=${hash}&Culture=en`;
 }
 
 export default App;
