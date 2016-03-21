@@ -23,7 +23,9 @@ const App = props => {
       const mappedRow = _.map(row, brick => {
         const brickClass = `brick ${BRICKS_CLASSES[brick.segment]}`;
         const url = buildUrl(brick);
-        return <a href={url} className={brickClass}></a>
+        return (
+          <a href={url} className={brickClass}></a>
+        )
       })
       return <div className="row">{mappedRow}</div>
     })

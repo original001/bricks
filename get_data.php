@@ -7,7 +7,7 @@
 
   $dbh = new PDO($dsn, $user, $password);
 
-  $query = $dbh->query("SELECT bricks.*, segments.outSum FROM bricks, segments WHERE bricks.segment = segments.id");
+  $query = $dbh->query("SELECT bricks.*, rows.outSum FROM bricks, segments WHERE bricks.row = rows.id");
 
   $array = $query->fetchAll();
 
