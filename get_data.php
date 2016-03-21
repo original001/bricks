@@ -7,20 +7,8 @@
 
   $dbh = new PDO($dsn, $user, $password);
 
-  $query = $dbh->query("SELECT bricks.*, rows.outSum FROM bricks, segments WHERE bricks.row = rows.id");
+  $query = $dbh->query("SELECT bricks.*, rows.outSum FROM bricks, rows WHERE bricks.row = rows.id");
 
   $array = $query->fetchAll();
 
-  function calculateHash($brick){
-    $login = 'buyonebrickcom';
-    $pass = 'original001';
-    $cur = 'USD';
-    $hash = md5($login . ':' . $brick['outSum'] . ':' . $brick['id'] . ':' . $cur . ':' . $pass);
-    array_push($brick, 'hash');
-    $brick['hash'] = $hash;
-    return $brick;
-  }
-
-  $mappedArray = array_map('calculateHash', $array);
-
-  die(json_encode($mappedArray));
+  die(json_encode($array));

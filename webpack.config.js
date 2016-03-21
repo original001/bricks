@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	context: path.join(__dirname, 'src'),
@@ -14,19 +15,30 @@ module.exports = {
 			test: /\.jsx?$/,
 			loader: 'babel',
 			query: {
-				presets: ['es2015', 'react']
+				presets: ['es2015', 'react', 'stage-0']
 			}
-		}]
+		},{
+      test: /\.(css|less)$/,
+      loader: ExtractTextPlugin.extract(
+        'style-loader',
+        'css-loader?localIdentName=[name]-[local]-[hash:base64:8]'
+      )
+    }, {
+      test: /\.less$/, 
+      loader: 'less-loader'
+    }]
 	},
 	resolve: {
         alias: {
             'react': 'react-lite',
-            'react-dom': 'react-lite'
+            'react-dom': 'react-lite',
+            'ui': 'retail-ui/components'
         }
     },
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin(),
-    	new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.DedupePlugin(),
+    new ExtractTextPlugin('bundle.css')
 	],
   devtool: 'inline-source-map'
 }
