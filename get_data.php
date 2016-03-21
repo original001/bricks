@@ -4,10 +4,22 @@
   $user = 'root';
   $password = 'root';
 
+
   $dbh = new PDO($dsn, $user, $password);
 
-  $query = $dbh->query("SELECT * FROM bricks");
+  $query = $dbh->query("SELECT bricks.*, segments.outSum FROM bricks, segments WHERE bricks.segment = segments.id");
 
   $array = $query->fetchAll();
 
-  die(json_encode($array));
+  function calculateHash($brick){
+    $login = 'buyonebrickcom';
+    $pass = 'original001';
+    $hash = md5($login . ':' . $brick['outSum'] . ':' . $brick['id'] . ':' . $pass);
+    array_push($brick, 'hash');
+    $brick['hash'] = $hash;
+    return $brick;
+  }
+
+  $mappedArray = array_map('calculateHash', $array);
+
+  die(json_encode($mappedArray));

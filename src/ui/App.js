@@ -1,6 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 
+const LOGIN = 'buyonebrickcom';
+const IS_TEST = 1;
+
 const BRICKS_CLASSES = {
   1: 'lg',
   2: 'md',
@@ -18,7 +21,8 @@ const App = props => {
     const mappedRows = _.map(rows, row => {
       const mappedRow = _.map(row, brick => {
         const brickClass = `brick ${BRICKS_CLASSES[brick.segment]}`;
-        return <span className={brickClass}></span>
+        const url = buildUrl(brick);
+        return <a href={url} className={brickClass}></a>
       })
       return <div className="row">{mappedRow}</div>
     })
@@ -30,6 +34,12 @@ const App = props => {
       {piramid}
     </div>
   )
+}
+
+const buildUrl = brick => {
+  const url = 'https://auth.robokassa.ru/Merchant/Index.aspx';
+  const {row, ind, id, hash, outSum}  = brick;
+  return `${url}?MrchLogin=${LOGIN}&IsTest=${IS_TEST}&OutSum=${outSum}&InvId=${id}&Desc=${row}-${ind}&SignatureValue=${hash}`;
 }
 
 export default App;
