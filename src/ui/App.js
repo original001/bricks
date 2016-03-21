@@ -1,6 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
 
+const BRICKS_CLASSES = {
+  1: 'lg',
+  2: 'md',
+  3: 'sm',
+  4: 'xs'
+};
+
 const App = props => {
   const data = props.data;
 
@@ -10,11 +17,12 @@ const App = props => {
     const rows = _.groupBy(segment, 'row');
     const mappedRows = _.map(rows, row => {
       const mappedRow = _.map(row, brick => {
-        return <span className="brick">B</span>
+        const brickClass = `brick ${BRICKS_CLASSES[brick.segment]}`;
+        return <span className={brickClass}></span>
       })
-      return <div className="row">R{mappedRow}</div>
+      return <div className="row">{mappedRow}</div>
     })
-    return <div className="segment">S{mappedRows}</div>
+    return <div className="segment">{mappedRows}</div>
   })
 
   return (
