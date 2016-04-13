@@ -4,7 +4,8 @@
   "description": "",
   "main": "scripts.js",
   "scripts": {
-    "start": "webpack-dev-server -p"
+    "start": "webpack-dev-server -p",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",

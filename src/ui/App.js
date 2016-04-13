@@ -20,7 +20,6 @@ class App extends React.Component {
     data: {
       id: 0,
       outSum: 0,
-      title: ''
     }
   }
 
@@ -43,33 +42,42 @@ class App extends React.Component {
     this.open();
   }
 
-  _handleInputChange = e => {
-    const value = e.target.value;
+  _handleNameChange = e => {
+    const name = e.target.value;
     this.setState({
       data: {
         ...this.state.data,
-        title: value
+        name
+      }
+    })
+  }
+
+  _handleSurnameChange = e => {
+    const surname = e.target.value;
+    this.setState({
+      data: {
+        ...this.state.data,
+        surname
       }
     })
   }
 
   _handleBuyClick = e => {
-    // const {title, id, outSum} = this.state.data;
-    const title = '';
-    const id = 1;
-    const outSum = 100;
+    const data = this.state.data;
+    const _this = this;
+
     fetch('../../get_hash.php', {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
       method: 'POST',
-      body: JSON.stringify({title, id, outSum})
+      body: _this.buildUrl(data)
     }).then(res => {
-        res.text()
+        return res.text()
       })
       .then(hash => {
-        location.href = buildUrl(hash);
+        location.href = _this.buildRCUrl(hash);
       })
       .catch(err => {
         console.error(err);
@@ -110,8 +118,14 @@ class App extends React.Component {
           Buy Brick!
         </Modal.Header> 
         <Modal.Body> 
-          <label>Title</label>
-          <input type="text" onChange={this._handleInputChange}/>
+          <div>
+            <label>Name</label>
+            <input type="text" onChange={this._handleNameChange}/>
+          </div>
+          <div>
+            <label>Surname</label>
+            <input type="text" onChange={this._handleSurnameChange}/>
+          </div>
         </Modal.Body> 
         <Modal.Footer> 
           <button onClick={this._handleBuyClick}>send</button>
@@ -120,8 +134,8 @@ class App extends React.Component {
     ) 
   }
 
-  buildUrl = hash => {
-    const {id, outSum, title}  = this.state.data;
+  buildRCUrl = hash => {
+    const {name, surname, id, outSum}  = this.state.data;
     const data = {
       MrchLogin: LOGIN,
       IsTest: IS_TEST,
@@ -130,9 +144,14 @@ class App extends React.Component {
       InvId: id,
       Desc: 'description',
       SignatureValue: hash,
-      Shp_title: title
+      Shp_name: name,
+      Shp_surname: surname
     }
 
+    return this.buildUrl(data, ROBOKASSA_URL);
+  }
+
+  buildUrl = (data, url) => {
     let params = [];
     for (let caption in data) {
       if (data.hasOwnProperty(caption)) {
@@ -140,7 +159,9 @@ class App extends React.Component {
       }
     }
 
-    return `${ROBOKASSA_URL}?${params.join('&')}`;
+    if (!url) return params.join('&');
+
+    return `${url}?${params.join('&')}`;
   };
 }
 
