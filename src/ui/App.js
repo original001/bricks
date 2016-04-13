@@ -77,6 +77,7 @@ class App extends React.Component {
         return res.text()
       })
       .then(hash => {
+        _this.disable();
         location.href = _this.buildRCUrl(hash);
       })
       .catch(err => {
@@ -125,11 +126,11 @@ class App extends React.Component {
         <Modal.Body> 
           <div>
             <label>Name</label>
-            <input type="text" onChange={this._handleNameChange}/>
+            <input type="text" onChange={this._handleNameChange} required/>
           </div>
           <div>
             <label>Surname</label>
-            <input type="text" onChange={this._handleSurnameChange}/>
+            <input type="text" onChange={this._handleSurnameChange} required/>
           </div>
         </Modal.Body> 
         <Modal.Footer> 
@@ -170,6 +171,19 @@ class App extends React.Component {
   };
 
   buildName = (name, surname) => `${name ? name[0] + '.' : ''}${surname ? surname[0] + '.' : ''}`;
+
+  disable = () => {
+    const id = this.state.data.id;
+
+    fetch('../../set_disabled.php', {
+      headers: {
+        'Accept': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+      method: 'POST',
+      body: `id=${id}`
+    })
+  }
 }
 
 
