@@ -40,5 +40,5 @@ module.exports = {
     new webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin('bundle.css')
 	],
-  devtool: 'inline-source-map'
+  devtool: ''
 }

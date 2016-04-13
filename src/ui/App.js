@@ -94,9 +94,13 @@ class App extends React.Component {
       const mappedRows = _.map(rows, row => {
         const mappedRow = _.map(row, brick => {
           const {segment, name, surname} = brick;
-          const brickClass = `brick ${BRICKS_CLASSES[segment]}`;
+          const disabled = brick.disabled === '1' ? true : false;
+          const brickClass = `brick ${BRICKS_CLASSES[segment]} ${disabled && 'disabled'}`;
           return (
-            <div onClick={() => this._handleBrickClick(brick)} className={brickClass}>{this.buildName(name, surname)}</div>
+            <div onClick={() => disabled || this._handleBrickClick(brick)} 
+              className={brickClass}>
+              {this.buildName(name, surname)}
+            </div>
           )
         })
         return <div className="row">{mappedRow}</div>

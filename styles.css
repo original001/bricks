@@ -29,9 +29,14 @@
   overflow: hidden;
   text-transform: uppercase;
   text-align: center;
+  cursor: pointer;
+}
+.brick.disabled {
+  background: #eee;
+  cursor: default;
 }
 
-.brick:hover {
+.brick:hover:not(.disabled) {
   box-shadow: 0 2px 10px rgba(0,0,0, .8);
   z-index: 1;
 }
