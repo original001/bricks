@@ -93,9 +93,10 @@ class App extends React.Component {
       const rows = _.groupBy(segment, 'row');
       const mappedRows = _.map(rows, row => {
         const mappedRow = _.map(row, brick => {
-          const brickClass = `brick ${BRICKS_CLASSES[brick.segment]}`;
+          const {segment, name, surname} = brick;
+          const brickClass = `brick ${BRICKS_CLASSES[segment]}`;
           return (
-            <div onClick={() => this._handleBrickClick(brick)} className={brickClass}></div>
+            <div onClick={() => this._handleBrickClick(brick)} className={brickClass}>{this.buildName(name, surname)}</div>
           )
         })
         return <div className="row">{mappedRow}</div>
@@ -163,6 +164,8 @@ class App extends React.Component {
 
     return `${url}?${params.join('&')}`;
   };
+
+  buildName = (name, surname) => `${name ? name[0] + '.' : ''}${surname ? surname[0] + '.' : ''}`;
 }
 
 

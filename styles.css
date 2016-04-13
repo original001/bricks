@@ -27,6 +27,8 @@
   border-bottom: 1px solid #333;
   background: #a66;
   overflow: hidden;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .brick:hover {
@@ -39,23 +41,33 @@
 }
 
 .xs {
+  font-size: 10px;
+  line-height: 10px;
   height: 16px;
   width: 26px;
   padding: 3px;
 }
 
 .sm {
+  font-size: 12px;
+  line-height: 15px;
   height: 25px;
   width: 43px;
   padding: 5px;
 }
 
 .md {
+  font-size: 14px;
+  line-height: 26px;
   height: 40px;
   width: 64px;
+  padding: 7px;
 }
 
 .lg {
+  font-size: 20px;
+  line-height: 50px;
   height: 70px;
   width: 130px; 
+  padding: 10px;
 }
