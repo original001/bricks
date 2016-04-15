@@ -20,7 +20,8 @@ class App extends React.Component {
     data: {
       id: 0,
       outSum: 0,
-    }
+    },
+    emptyField: false
   }
 
   open = () => {
@@ -65,6 +66,11 @@ class App extends React.Component {
   _handleBuyClick = e => {
     const data = this.state.data;
     const _this = this;
+
+    if (!data.name || !data.surname) {
+      this.setState({emptyField: true});
+      return;
+    }
 
     fetch('../../get_hash.php', {
       headers: {
@@ -127,13 +133,14 @@ class App extends React.Component {
           Buy Brick!
         </Modal.Header> 
         <Modal.Body> 
+          {this.state.emptyField && <span>Необходимо ввести имя или фамилию</span>} 
           <div>
             <label>Name</label>
-            <input type="text" onChange={this._handleNameChange} required/>
+            <input type="text" onChange={this._handleNameChange}/>
           </div>
           <div>
             <label>Surname</label>
-            <input type="text" onChange={this._handleSurnameChange} required/>
+            <input type="text" onChange={this._handleSurnameChange}/>
           </div>
         </Modal.Body> 
         <Modal.Footer> 
@@ -188,7 +195,5 @@ class App extends React.Component {
     })
   }
 }
-
-
 
 export default App;
