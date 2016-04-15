@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Modal from 'ui/Modal';
+import Gapped from 'ui/Gapped';
 
 const LOGIN = 'buyonebrickcom';
 const IS_TEST = 1;
@@ -133,15 +134,18 @@ class App extends React.Component {
           Buy Brick!
         </Modal.Header> 
         <Modal.Body> 
-          {this.state.emptyField && <span>Необходимо ввести имя или фамилию</span>} 
-          <div>
-            <label>Name</label>
-            <input type="text" onChange={this._handleNameChange}/>
-          </div>
-          <div>
-            <label>Surname</label>
-            <input type="text" onChange={this._handleSurnameChange}/>
-          </div>
+          <Gapped vertical={true}>
+            {this.state.emptyField && <span>Must enter name or surname</span>} 
+            <div>
+              <label>Name</label>
+              <input type="text" onChange={this._handleNameChange}/>
+            </div>
+            <div>
+              <label>Surname</label>
+              <input type="text" onChange={this._handleSurnameChange}/>
+            </div>
+            <div>Sum: ${this.state.data.outSum}</div>
+          </Gapped>
         </Modal.Body> 
         <Modal.Footer> 
           <button onClick={this._handleBuyClick}>send</button>
