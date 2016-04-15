@@ -18,22 +18,44 @@
   text-align: center;
 }
 
+.brick-wrapper {
+  display: inline-block;
+  position: relative;
+  border-left: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.brick-wrapper:first-child {
+  border-left: none;
+}
+
 .brick {
   position: relative;
   display: inline-block;
   text-decoration: none;
   color: inherit;
-  border-left: 1px solid #333;
-  border-bottom: 1px solid #333;
   background: #a66;
   overflow: hidden;
   text-transform: uppercase;
   text-align: center;
   cursor: pointer;
 }
+
 .brick.disabled {
   background: #eee;
   cursor: default;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 16px;
 }
 
 .brick:hover:not(.disabled) {
@@ -41,9 +63,10 @@
   z-index: 1;
 }
 
-.brick:first-child {
-  border-left: none;
+.brick.disabled:hover + .tooltip {
+  display: block;
 }
+
 
 .xs {
   font-size: 10px;

@@ -98,9 +98,12 @@ class App extends React.Component {
           const disabled = brick.disabled === '1' ? true : false;
           const brickClass = `brick ${BRICKS_CLASSES[segment]} ${disabled && 'disabled'}`;
           return (
-            <div onClick={() => disabled || this._handleBrickClick(brick)} 
-              className={brickClass}>
-              {this.buildName(name, surname)}
+            <div className='brick-wrapper'>
+              <div onClick={() => disabled || this._handleBrickClick(brick)} 
+                className={brickClass}>
+                {this.buildName(name, surname)}
+              </div>
+              {disabled && (name || surname) && <div className='tooltip'>{[name, surname].join(' ')}</div>}
             </div>
           )
         })
