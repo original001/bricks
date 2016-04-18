@@ -120,7 +120,7 @@ class App extends React.Component {
                 className={brickClass}>
                 {this.buildName(name, surname, middlename)}
               </div>
-              {disabled && (name || surname) && <div className='tooltip'>{[name, surname].join(' ')}</div>}
+              {disabled && (name || surname) && <div className='tooltip'>{[name, surname, middlename].join(' ')}</div>}
             </div>
           )
         })
