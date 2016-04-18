@@ -38,35 +38,45 @@ class App extends React.Component {
       data: {
         ...this.state.data,
         id: brick.id,
-        outSum: brick.outSum
+        outSum: brick.outSum,
+        name: '',
+        surname: '',
+        middlename: '',
+        address: '',
       }
     });
     this.open();
   }
 
-  _handleNameChange = e => {
-    const name = e.target.value;
+  _createHandler = (field, e) => {
     this.setState({
       data: {
         ...this.state.data,
-        name
+        [field]: e.target.value
       }
     })
+  }
+
+  _handleNameChange = e => {
+    this._createHandler('name', e)
+  }
+
+  _handleAddressChange = e => {
+    this._createHandler('address', e)
+  }
+
+  _handleMiddlenameChange = e => {
+    this._createHandler('middlename', e)
   }
 
   _handleSurnameChange = e => {
-    const surname = e.target.value;
-    this.setState({
-      data: {
-        ...this.state.data,
-        surname
-      }
-    })
+    this._createHandler('surname', e)
   }
 
   _handleBuyClick = e => {
-    const data = this.state.data;
     const _this = this;
+
+    const data = this.state.data;
 
     if (!data.name || !data.surname) {
       this.setState({emptyField: true});
@@ -101,14 +111,14 @@ class App extends React.Component {
       const rows = _.groupBy(segment, 'row');
       const mappedRows = _.map(rows, row => {
         const mappedRow = _.map(row, brick => {
-          const {segment, name, surname} = brick;
+          const {segment, name, surname, middlename} = brick;
           const disabled = brick.disabled === '1' ? true : false;
           const brickClass = `brick ${BRICKS_CLASSES[segment]} ${disabled && 'disabled'}`;
           return (
             <div className='brick-wrapper'>
               <div onClick={() => disabled || this._handleBrickClick(brick)} 
                 className={brickClass}>
-                {this.buildName(name, surname)}
+                {this.buildName(name, surname, middlename)}
               </div>
               {disabled && (name || surname) && <div className='tooltip'>{[name, surname].join(' ')}</div>}
             </div>
@@ -137,12 +147,20 @@ class App extends React.Component {
           <Gapped vertical={true}>
             {this.state.emptyField && <span>Must enter name or surname</span>} 
             <div>
-              <label>Name</label>
+              <label>Name*</label>
               <input type="text" onChange={this._handleNameChange}/>
             </div>
             <div>
-              <label>Surname</label>
+              <label>Surname*</label>
               <input type="text" onChange={this._handleSurnameChange}/>
+            </div>
+            <div>
+              <label>Middlename</label>
+              <input type="text" onChange={this._handleMiddlenameChange}/>
+            </div>
+            <div>
+              <label>Address</label>
+              <input type="text" onChange={this._handleAddressChange}/>
             </div>
             <div>Sum: ${this.state.data.outSum}</div>
           </Gapped>
@@ -155,7 +173,7 @@ class App extends React.Component {
   }
 
   buildRCUrl = hash => {
-    const {name, surname, id, outSum}  = this.state.data;
+    const {name, surname, middlename, address, id, outSum}  = this.state.data;
     const data = {
       MrchLogin: LOGIN,
       IsTest: IS_TEST,
@@ -164,8 +182,10 @@ class App extends React.Component {
       InvId: id,
       Desc: 'description',
       SignatureValue: hash,
+      Shp_address: address,
+      Shp_middlename: middlename,
       Shp_name: name,
-      Shp_surname: surname
+      Shp_surname: surname,
     }
 
     return this.buildUrl(data, ROBOKASSA_URL);
@@ -184,7 +204,9 @@ class App extends React.Component {
     return `${url}?${params.join('&')}`;
   };
 
-  buildName = (name, surname) => `${name ? name[0] + '.' : ''}${surname ? surname[0] + '.' : ''}`;
+  buildName = (name, surname, middlename) => {
+    return [name, surname, middlename].filter(val => val).map(val => val[0]).join('.');
+  };
 
   disable = () => {
     const id = this.state.data.id;

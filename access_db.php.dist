@@ -1,0 +1,5 @@
+<?php
+  $dsn = 'mysql:dbname=DB_NAME;host=HOST';
+  $user = 'NAME';
+  $password = 'PASSWORD';
+

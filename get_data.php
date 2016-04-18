@@ -1,9 +1,6 @@
 <?php
 
-  $dsn = 'mysql:dbname=bricks;host=127.0.0.1';
-  $user = 'root';
-  $password = 'root';
-
+  include 'access_db.php';
 
   $dbh = new PDO($dsn, $user, $password);
 

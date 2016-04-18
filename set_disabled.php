@@ -1,10 +1,10 @@
 <?php
+
+  //todo: must not allow disable bricks via console
   
   $id = $_POST['id'];
 
-  $dsn = 'mysql:dbname=bricks;host=127.0.0.1';
-  $user = 'root';
-  $password = 'root';
+  include 'access_db.php';
 
   $dbh = new PDO($dsn, $user, $password);
 
