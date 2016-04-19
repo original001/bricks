@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import axios from 'axios';
 import Modal from 'ui/Modal';
 import Gapped from 'ui/Gapped';
 
@@ -83,19 +84,17 @@ class App extends React.Component {
       return;
     }
 
-    fetch('../../get_hash.php', {
+    axios({
+      url: '../../get_hash.php',
       headers: {
         'Accept': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
       method: 'POST',
-      body: _this.buildUrl(data)
+      data: _this.buildUrl(data),
     }).then(res => {
-        return res.text()
-      })
-      .then(hash => {
         _this.disable();
-        location.href = _this.buildRCUrl(hash);
+        location.href = _this.buildRCUrl(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -211,13 +210,14 @@ class App extends React.Component {
   disable = () => {
     const id = this.state.data.id;
 
-    fetch('../../set_disabled.php', {
+    axios({
+      url: '../../set_disabled.php',
       headers: {
         'Accept': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
       method: 'POST',
-      body: `id=${id}`
+      data: `id=${id}`
     })
   }
 }
