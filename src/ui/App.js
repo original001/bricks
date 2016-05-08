@@ -110,7 +110,7 @@ class App extends React.Component {
       const rows = _.groupBy(segment, 'row');
       const mappedRows = _.map(rows, row => {
         const mappedRow = _.map(row, brick => {
-          const {segment, name, surname, middlename} = brick;
+          const {segment, name, surname, middlename, ind} = brick;
           const disabled = brick.disabled === '1' ? true : false;
           const brickClass = `brick ${BRICKS_CLASSES[segment]} ${disabled && 'disabled'}`;
           return (
@@ -119,6 +119,7 @@ class App extends React.Component {
                 className={brickClass}>
                 {this.buildName(name, surname, middlename)}
               </div>
+              <div className={`brick-shadow ${BRICKS_CLASSES[segment]}`}></div>
               {disabled && (name || surname) && <div className='tooltip'>{[name, surname, middlename].join(' ')}</div>}
             </div>
           )
