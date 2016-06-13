@@ -9,6 +9,3 @@ axios.get('../get_data.php')
   .then(res => {
     React.render(<App data={res.data} />, document.getElementById('container'));
   })
-	.catch(err => {
-    console.log(err)
-	})

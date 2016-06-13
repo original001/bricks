@@ -1,20 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
-import axios from 'axios';
 import Modal from 'ui/Modal';
 import Gapped from 'ui/Gapped';
+import Brick from './Brick';
+
+import * as api from './api';
 
 const LOGIN = 'buyonebrickcom';
 const IS_TEST = 1;
 const OUT_SUM_CURRENCY = 'USD';
 const ROBOKASSA_URL = 'https://auth.robokassa.ru/Merchant/Index.aspx';
-
-const BRICKS_CLASSES = {
-  1: 'lg',
-  2: 'md',
-  3: 'sm',
-  4: 'xs'
-};
 
 class App extends React.Component {
   state = {
@@ -84,15 +79,7 @@ class App extends React.Component {
       return;
     }
 
-    axios({
-      url: '../../get_hash.php',
-      headers: {
-        'Accept': 'application/x-www-form-urlencoded',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-      method: 'POST',
-      data: _this.buildUrl(data),
-    }).then(res => {
+    api.getHash(_this.buildUrl(data)).then(res => {
         _this.disable();
         location.href = _this.buildRCUrl(res.data);
       })
@@ -109,22 +96,8 @@ class App extends React.Component {
     const piramid = _.map(segments, segment => {
       const rows = _.groupBy(segment, 'row');
       const mappedRows = _.map(rows, row => {
-        const mappedRow = _.map(row, brick => {
-          const {segment, name, surname, middlename, ind} = brick;
-          const disabled = brick.disabled === '1' ? true : false;
-          const brickClass = `brick ${BRICKS_CLASSES[segment]} ${disabled && 'disabled'}`;
-          return (
-            <div className='brick-wrapper'>
-              <div onClick={() => disabled || this._handleBrickClick(brick)} 
-                className={brickClass}>
-                {this.buildName(name, surname, middlename)}
-              </div>
-              <div className={`brick-shadow ${BRICKS_CLASSES[segment]}`}></div>
-              {disabled && (name || surname) && <div className='tooltip'>{[name, surname, middlename].join(' ')}</div>}
-            </div>
-          )
-        })
-        return <div className="row">{mappedRow}</div>
+        const bricks = _.map(row, brick =>  <Brick {...brick} onClick={this._handleBrickClick}/> );
+        return <div className="row">{bricks}</div>
       })
       return <div className="segment">{mappedRows}</div>
     })
@@ -202,24 +175,12 @@ class App extends React.Component {
     if (!url) return params.join('&');
 
     return `${url}?${params.join('&')}`;
-  };
-
-  buildName = (name, surname, middlename) => {
-    return [name, surname, middlename].filter(val => val).map(val => val[0]).join('.');
-  };
+  }
 
   disable = () => {
     const id = this.state.data.id;
 
-    axios({
-      url: '../../set_disabled.php',
-      headers: {
-        'Accept': 'application/x-www-form-urlencoded',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
-      method: 'POST',
-      data: `id=${id}`
-    })
+    api.disable(id);
   }
 }
 
